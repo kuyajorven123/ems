@@ -1,11 +1,12 @@
-package com.project.test.controller;
+package com.project.ems.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.ui.Model;
 
-import com.project.test.model.UserRepository;
+import com.project.ems.model.UserRepository;
+
+import org.springframework.ui.Model;
 
 @ControllerAdvice
 public class GlobalControllerAdvice {

@@ -1,4 +1,4 @@
-package com.project.test.controller;
+package com.project.ems.controller;
 
 import java.util.Optional;
 
@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.project.ems.model.User;
+import com.project.ems.model.UserRepository;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
-import com.project.test.model.User;
-import com.project.test.model.UserRepository;
 
 
 

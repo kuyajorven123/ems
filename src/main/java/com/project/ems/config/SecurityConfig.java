@@ -1,4 +1,4 @@
-package com.project.test.config;
+package com.project.ems.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

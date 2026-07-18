@@ -1,12 +1,12 @@
-package com.project.test.service;
+package com.project.ems.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.project.test.model.UserRepository;
-import com.project.test.model.User;
+import com.project.ems.model.User;
+import com.project.ems.model.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
