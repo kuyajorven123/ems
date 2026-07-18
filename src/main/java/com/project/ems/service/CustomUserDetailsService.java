@@ -10,25 +10,25 @@ import com.project.ems.model.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-     private final UserRepository employeeRepository;
+     private final UserRepository userRepository;
 
-    public CustomUserDetailsService(UserRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
 
-        User employee = employeeRepository.findByEmail(email)
+        User user= userRepository.findByEmail(email)
                 .orElseThrow(() ->
                         new UsernameNotFoundException("User not found"));
 
         return org.springframework.security.core.userdetails.User
                 .builder()
-                .username(employee.getEmail())
-                .password(employee.getPassword())
-                .roles(employee.getRole())
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .roles(user.getRole())
                 .build();
     }
 }

@@ -10,7 +10,11 @@
 </head>
 <body>
     <div layout:fragment="content">
-        <h1 style="font-size: xx-large;">Inactive Employee</h1>
+        <div class="content-header">
+        <div class="container-fluid">
+            <h1 class="m-0">Inactive Employee</h1>
+        </div>
+    </div>
 
         <!-- Alerts -->
          <div th:if="${param.reactivate_success}" class="alert alert-success">

@@ -1,25 +1,26 @@
-  <!-- Main Sidebar Container -->
-  <aside th:fragment="sidebar" class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a th:href="@{/admin/dashboard}" class="brand-link">
-      <img th:src="@{/adminlte/dist/img/EMSLogo.jpg}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">JCS Corporation</span>
-    </a>
+<!-- Main Sidebar Container -->
+<aside th:fragment="sidebar" class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <a th:href="@{/admin/dashboard}" class="brand-link">
+    <img th:src="@{/adminlte/dist/img/EMSLogo.jpg}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      style="opacity: .8">
+    <span class="brand-text font-weight-light">JCS Corporation</span>
+  </a>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img th:src="@{/adminlte/dist/img/user2-160x160.jpg}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block"><span th:text="${loggedInUser.firstname + ' ' + loggedInUser.lastname}"></span></a>
-        </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img th:src="@{/adminlte/dist/img/user2-160x160.jpg}" class="img-circle elevation-2" alt="User Image">
       </div>
+      <div class="info">
+        <a href="#" class="d-block"><span th:text="${loggedInUser.firstname + ' ' + loggedInUser.lastname}"></span></a>
+      </div>
+    </div>
 
-      <!-- SidebarSearch Form -->
-      <!-- <div class="form-inline">
+    <!-- SidebarSearch Form -->
+    <!-- <div class="form-inline">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
@@ -30,90 +31,124 @@
         </div>
       </div> -->
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-            <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
-            <a th:href="@{/dashboard}" class="nav-link" th:classappend="${activePage == 'dashboard'} ? ' active'">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-              </p>
-            </a>
-          </li>
+        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+          <a th:href="@{/dashboard}" class="nav-link" th:classappend="${activePage == 'dashboard'} ? ' active'">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Dashboard
+            </p>
+          </a>
+        </li>
 
-          <li class="nav-header">OPERATIONS</li>
-            <li class="nav-item has-treeview" th:classappend="${activePage == ''
-                  || activePage == ''} ? ' menu-open'" sec:authorize="hasRole('ADMIN')">
-            <a href="#" class="nav-link" th:classappend="${activePage == ''
-                  || activePage == ''} ? ' active'">
-              <i class="nav-icon fas fa-calendar-alt"></i>
-              <p>
-                Leave
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/active_employee}" class="nav-link" th:classappend="${activePage == 'active_employee'} ? ' active'">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Active Employee</p>
-                </a>
-              </li>
-              <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/inactive_employee}" class="nav-link" th:classappend="${activePage == 'inactive_employee'} ? ' active'">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inactive Employee</p>
-                </a>
-              </li>
-            </ul>
-            </li>
-            <li class="nav-item has-treeview" th:classappend="${activePage == 'active_employee'
+        <li class="nav-header">OPERATIONS</li>
+        <li class="nav-item has-treeview" th:classappend="${activePage == 'active_employee'
                   || activePage == 'inactive_employee'} ? ' menu-open'" sec:authorize="hasRole('ADMIN')">
-            <a href="#" class="nav-link" th:classappend="${activePage == 'active_employee'
+          <a href="#" class="nav-link" th:classappend="${activePage == 'active_employee'
                   || activePage == 'inactive_employee'} ? ' active'">
-              <i class="nav-icon fas fa-address-book"></i>
-              <p>
-                Employee
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/active_employee}" class="nav-link" th:classappend="${activePage == 'active_employee'} ? ' active'">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Active Employee</p>
-                </a>
-              </li>
-              <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                <a th:href="@{/inactive_employee}" class="nav-link" th:classappend="${activePage == 'inactive_employee'} ? ' active'">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Inactive Employee</p>
-                </a>
-              </li>
-            </ul>
+            <i class="nav-icon fas fa-address-book"></i>
+            <p>
+              Employee
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+              <a th:href="@{/active_employee}" class="nav-link"
+                th:classappend="${activePage == 'active_employee'} ? ' active'">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Active Employee</p>
+              </a>
             </li>
             <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-            <a th:href="@{/admin}" class="nav-link" th:classappend="${activePage == 'admin'} ? ' active'">
-              <i class="nav-icon fas fa-user"></i>
-              <p>
-                Admin
-              </p>
-            </a>
-          </li>
-            <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
-            <a th:href="@{/settings}" class="nav-link" th:classappend="${activePage == 'settings'} ? ' active'">
-              <i class="nav-icon fas fa-cog"></i>
-              <p>
-                Settings
-              </p>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
+              <a th:href="@{/inactive_employee}" class="nav-link"
+                th:classappend="${activePage == 'inactive_employee'} ? ' active'">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Inactive Employee</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item has-treeview" th:classappend="${activePage == ''
+                  || activePage == ''} ? ' menu-open'" sec:authorize="hasRole('ADMIN')">
+          <a href="#" class="nav-link" th:classappend="${activePage == ''
+                  || activePage == ''} ? ' active'">
+            <i class="nav-icon fas fa-clipboard-list"></i>
+            <p>
+              Leave Management
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+              <a th:href="@{/active_employee}" class="nav-link"
+                th:classappend="${activePage == 'active_employee'} ? ' active'">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Pending Leave</p>
+              </a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+              <a th:href="@{/inactive_employee}" class="nav-link"
+                th:classappend="${activePage == 'inactive_employee'} ? ' active'">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Approved Leave</p>
+              </a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+              <a th:href="@{/inactive_employee}" class="nav-link"
+                th:classappend="${activePage == 'inactive_employee'} ? ' active'">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Disapproved Leave</p>
+              </a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+              <a th:href="@{/inactive_employee}" class="nav-link"
+                th:classappend="${activePage == 'inactive_employee'} ? ' active'">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Leave History</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+          <a th:href="@{/departments}" class="nav-link" th:classappend="${activePage == 'departments'} ? ' active'">
+            <i class="nav-icon fas fa-building"></i>
+            <p>
+              Departments
+            </p>
+          </a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+          <a th:href="@{/admin}" class="nav-link" th:classappend="${activePage == 'admin'} ? ' active'">
+            <i class="nav-icon fas fa-calendar-alt"></i>
+            <p>
+              Calendar
+            </p>
+          </a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+          <a th:href="@{/admin}" class="nav-link" th:classappend="${activePage == 'admin'} ? ' active'">
+            <i class="nav-icon fas fa-user"></i>
+            <p>
+              Admin
+            </p>
+          </a>
+        </li>
+        <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+          <a th:href="@{/settings}" class="nav-link" th:classappend="${activePage == 'settings'} ? ' active'">
+            <i class="nav-icon fas fa-cog"></i>
+            <p>
+              Settings
+            </p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
