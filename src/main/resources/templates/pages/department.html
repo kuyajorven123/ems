@@ -18,7 +18,7 @@
 
         <!-- Alerts -->
         <div th:if="${param.error}" class="alert alert-danger">
-            Email Already Exist!
+            Department Already Exist!
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
 
@@ -28,12 +28,12 @@
         </div>
 
         <div th:if="${param.update_success}" class="alert alert-success">
-            Admin Successfully Updated!
+            Department Successfully Updated!
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
 
-        <div th:if="${delete_success}" class="alert alert-success">
-            Admin Deleted Successfully!
+        <div th:if="${param.delete_success}" class="alert alert-success">
+            Department Deleted Successfully!
             <button type="button" class="close" data-dismiss="alert">&times;</button>
         </div>
         <!-- /Alerts -->
@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="departments : ${department}">
-                            <td th:text="${departments.department}"></td>
+                            <td th:text="${departments.departmentName}"></td>
                             <td>
                                 <button class="btn btn-sm btn-success" data-toggle="modal"
                                     data-target="#modal-edit-department" th:data-id="${departments.id}"><i
@@ -87,8 +87,8 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="department">Department Name</label>
-                                            <input type="text" class="form-control" name="department"
+                                            <label for="departmentName">Department Name</label>
+                                            <input type="text" class="form-control" name="departmentName"
                                                 placeholder="Enter department's name" required>
                                         </div>
                                     </div>
@@ -102,69 +102,69 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Edit Department Modal -->
-            <div class="modal fade" id="modal-edit-department">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Edit Department</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form th:action="@{/update_department}" method="post">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
+        <!-- Edit Department Modal -->
+        <div class="modal fade" id="modal-edit-department">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit Department</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/update_department}" method="post">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
 
-                                                <input type="hidden" id="departmentId" name="id">
-                                                <!-- Column 1 -->
-                                                <label for="editDepartment">Department Name</label>
-                                                <input type="text" class="form-control" id="department" name="department"
-                                                    placeholder="Enter department's name" required>
-                                            </div>
+                                            <input type="hidden" id="departmentId" name="id">
+                                            <!-- Column 1 -->
+                                            <label for="editDepartment">Department Name</label>
+                                            <input type="text" class="form-control" id="department" name="departmentName"
+                                                placeholder="Enter department's name" required>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Delete Admin Modal -->
-                <div class="modal fade" id="modal-delete-admin">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Delete Employee</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
                             </div>
-                            <form th:action="@{/delete_admin}" method="post">
-                                <div class="modal-body">
-                                    <input type="hidden" id="deleteEmployeeId" name="id">
-                                    <p>Are you sure you want to delete this employee?</p>
-                                    <p>Name: <b><span id="deleteName"></span></b></p>
-                                    <p>Position: <b><span id="deletePosition"></span></b></p>
-                                    <p>Status: <b><span id="deleteStatus"></span></b></p>
-                                </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                    <button type="submit" class="btn btn-danger">Yes</button>
-                                </div>
-                            </form>
-                        </div>
+                            <div class="modal-footer justify-content-between">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Delete Admin Modal -->
+        <div class="modal fade" id="modal-delete-department">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete Employee</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form th:action="@{/delete_department}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" id="deleteDepartmentId" name="id">
+                            <p>Are you sure you want to delete this department?</p>
+                            <p>Department: <b><span id="deleteDepartmentName"></span></b></p>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

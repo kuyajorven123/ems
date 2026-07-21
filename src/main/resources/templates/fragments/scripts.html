@@ -228,15 +228,37 @@ $('#modal-edit-department').on('show.bs.modal', function (event) {
     var id = button.data('id');
 
     $.ajax({
-        url: '/departments/' + id,
+        url: '/department/' + id,
         type: 'GET',
         success: function(departments) {
 
-            $('#Id').val(departments.id);
-            $('#department').val(departments.department);
+            $('#departmentId').val(departments.id);
+            $('#department').val(departments.departmentName);
         },
         error: function() {
-            alert("Unable to load admin.");
+            alert("Unable to load department.");
+        }
+    });
+
+});
+</script>
+<!-- For Delete Department -->
+<script>
+$('#modal-delete-department').on('show.bs.modal', function (event) {
+
+    var button = $(event.relatedTarget);
+    var id = button.data('id');
+
+    $.ajax({
+        url: '/department/' + id,
+        type: 'GET',
+        success: function(departments) {
+
+            $('#deleteDepartmentId').val(departments.id);
+            $('#deleteDepartmentName').text(departments.departmentName);
+        },
+        error: function() {
+            alert("Unable to load department.");
         }
     });
 

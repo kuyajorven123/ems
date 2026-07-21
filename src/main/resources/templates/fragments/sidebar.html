@@ -115,15 +115,15 @@
           </ul>
         </li>
         <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a th:href="@{/departments}" class="nav-link" th:classappend="${activePage == 'departments'} ? ' active'">
+          <a th:href="@{/department}" class="nav-link" th:classappend="${activePage == 'department'} ? ' active'">
             <i class="nav-icon fas fa-building"></i>
             <p>
-              Departments
+              Department
             </p>
           </a>
         </li>
         <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-          <a th:href="@{/admin}" class="nav-link" th:classappend="${activePage == 'admin'} ? ' active'">
+          <a th:href="@{/calendar}" class="nav-link" th:classappend="${activePage == 'admin'} ? ' active'">
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>
               Calendar
