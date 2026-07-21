@@ -34,9 +34,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>First Name</th>
-                    <th>Middle Name</th>
-                    <th>Lastname</th>
+                    <th>Name</th>
                     <th>Position</th>
                     <th>Email</th>
                     <th>Address</th>
@@ -48,9 +46,7 @@
                   </thead>
                   <tbody>
                   <tr th:each="users : ${user}">
-                    <td th:text="${users.firstname}"></td>
-                    <td th:text="${users.middlename}"></td>
-                    <td th:text="${users.lastname}"></td>
+                    <td th:text="${users.firstname + ' ' + users.middlename + ' ' + users.lastname}"></td>
                     <td th:text="${users.position}"></td>
                     <td th:text="${users.email}"></td>
                     <td th:text="${users.address}"></td>
