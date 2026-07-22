@@ -1,5 +1,6 @@
 package com.project.ems.service;
 
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,7 +11,7 @@ import com.project.ems.model.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-     private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -20,9 +21,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
 
-        User user= userRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found"));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if ("Inactive".equalsIgnoreCase(user.getStatus())) {
+            throw new DisabledException("Inactive Account");
+        }
 
         return org.springframework.security.core.userdetails.User
                 .builder()

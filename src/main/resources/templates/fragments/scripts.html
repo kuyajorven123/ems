@@ -84,6 +84,7 @@ $('#modal-edit').on('show.bs.modal', function (event) {
             $('#position').val(user.position);
             $('#email').val(user.email);
             $('#birthday').val(user.birthday);
+            $('#department').val(user.department.id);
         },
         error: function() {
             alert("Unable to load employee.");

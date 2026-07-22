@@ -95,6 +95,7 @@ public class ActiveEmployeeController {
         existing.setBirthday(user.getBirthday());
         existing.setPosition(user.getPosition());
         existing.setEmail(user.getEmail());
+        existing.setDepartment(user.getDepartment());
 
         if (user.getPassword() != null && !user.getPassword().isBlank()) {
         existing.setPassword(
