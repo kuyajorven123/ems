@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.ems.model.User;
 import com.project.ems.model.UserRepository;
+import com.project.ems.model.DepartmentRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -24,16 +25,19 @@ public class ActiveEmployeeController {
     @Autowired
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private DepartmentRepository departmentRepository;
 
-    public ActiveEmployeeController(UserRepository userRepository, PasswordEncoder passwordEncoder){
+    public ActiveEmployeeController(UserRepository userRepository, PasswordEncoder passwordEncoder, DepartmentRepository departmentRepository){
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.departmentRepository = departmentRepository;
     }
 
     @GetMapping({"/active_employee"})
         public String active_employee(Model model){
             model.addAttribute("activePage", "active_employee");
             model.addAttribute("user", userRepository.findByStatusAndRole("Active", "EMPLOYEE"));
+            model.addAttribute("departments", departmentRepository.findAllByOrderByDepartmentNameAsc());
             // model.addAttribute("user", userRepository.findByRole("EMPLOYEE"));
             return "pages/active_employee";
         }

@@ -24,6 +24,10 @@ public class User {
     private String status;
     private String role;
 
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
     public Long getId(){
         return id;
     }
@@ -99,5 +103,12 @@ public class User {
     }
     public void setRole(String role){
         this.role = role;
+    }
+
+    public Department getDepartment(){
+        return department;
+    }
+    public void setDepartment(Department department){
+        this.department = department;
     }
 }
