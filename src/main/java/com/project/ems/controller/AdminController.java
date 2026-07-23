@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.project.ems.model.User;
 import com.project.ems.model.UserRepository;
+import com.project.ems.model.DepartmentRepository;
 
 import org.springframework.ui.Model;
 
@@ -24,18 +25,23 @@ public class AdminController {
 
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
+    private DepartmentRepository departmentRepository;
 
-    public AdminController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AdminController(UserRepository userRepository, PasswordEncoder passwordEncoder, DepartmentRepository departmentRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.departmentRepository = departmentRepository;
     }
 
-    @GetMapping({ "/admin" })
+
+    // Active Admin
+    @GetMapping({ "/active_admin" })
     public String admin(Model model) {
-        model.addAttribute("activePage", "admin");
+        model.addAttribute("activePage", "active_admin");
         model.addAttribute("user", userRepository.findByStatusAndRole("Active", "ADMIN"));
+        model.addAttribute("departments", departmentRepository.findAllByOrderByDepartmentNameAsc());
         // model.addAttribute("employee", userRepository.findByRole("ADMIN"));
-        return "pages/admin";
+        return "pages/active_admin";
     }
 
     // create
@@ -44,18 +50,18 @@ public class AdminController {
         Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
 
         if (existingUser.isPresent()) {
-            return "redirect:/admin?error";
+            return "redirect:/active_admin?error";
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setStatus("Active");
         user.setRole("ADMIN");
         userRepository.save(user);
-        return "redirect:/admin?success";
+        return "redirect:/active_admin?success";
     }
 
     // id getter
-    @GetMapping({ "/admin/{id}" })
+    @GetMapping({ "/active_admin/{id}" })
     @ResponseBody
     public User getUser(@PathVariable Long id) {
 
@@ -76,7 +82,7 @@ public class AdminController {
         if (existingUser.isPresent()
                 && !existingUser.get().getId().equals(user.getId())) {
 
-            return "redirect:/admin?error";
+            return "redirect:/active_admin?error";
         }
 
         existing.setFirstname(user.getFirstname());
@@ -86,6 +92,7 @@ public class AdminController {
         existing.setBirthday(user.getBirthday());
         existing.setPosition(user.getPosition());
         existing.setEmail(user.getEmail());
+        existing.setDepartment(user.getDepartment());
 
         if (user.getPassword() != null && !user.getPassword().isBlank()) {
             existing.setPassword(
@@ -93,13 +100,60 @@ public class AdminController {
         }
 
         userRepository.save(existing);
-        return "redirect:/admin?update_success";
+        return "redirect:/active_admin?update_success";
     }
+
+
+    // deactivate
+    @PostMapping({"/deactivate_admin"})
+    public String deactivate(@ModelAttribute User user){
+        User existing = userRepository.findById(user.getId())
+            .orElseThrow(() -> new RuntimeException("Admin not found"));
+
+     existing.setStatus("Inactive");
+
+     userRepository.save(existing);
+     return "redirect:/active_admin?deactivate_success";
+    }
+
+
+    
+
+
+    // Inactive Admin
+
+    @GetMapping({"/inactive_admin"})
+    public String inactiveAdmin(Model model){
+        model.addAttribute("activePage", "inactive_admin");
+        model.addAttribute("user", userRepository.findByStatusAndRole("Inactive", "ADMIN"));
+        return "/pages/inactive_admin";
+    }
+
+    // id getter
+    @GetMapping({ "/inactive_admin/{id}" })
+    @ResponseBody
+    public User getInactive(@PathVariable Long id) {
+
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
+    }
+
+    @PostMapping({"/reactivate_admin"})
+    public String reactivate(@ModelAttribute User user){
+        User existing = userRepository.findById(user.getId())
+            .orElseThrow(() -> new RuntimeException("Admin not found"));
+
+     existing.setStatus("Active");
+
+     userRepository.save(existing);
+     return "redirect:/inactive_admin?reactivate_success";
+    }
+
 
     // delete
     @PostMapping({ "/delete_admin" })
     public String deleted(@RequestParam Long id) {
         userRepository.deleteById(id);
-        return "redirect:/admin?delete_success";
+        return "redirect:/inactive_admin?delete_success";
     }
 }
