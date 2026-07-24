@@ -100,10 +100,10 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item has-treeview" th:classappend="${activePage == ''
-                  || activePage == ''} ? ' menu-open'" sec:authorize="hasRole('ADMIN')">
-          <a href="#" class="nav-link" th:classappend="${activePage == ''
-                  || activePage == ''} ? ' active'">
+        <li class="nav-item has-treeview" th:classappend="${activePage == 'apply_leave'
+                  || activePage == 'leave_applications' || activePage == 'leave_history'} ? ' menu-open'" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+          <a href="#" class="nav-link" th:classappend="${activePage == 'apply_leave'
+                  || activePage == 'leave_applications' || activePage == 'leave_history'} ? ' active'">
             <i class="nav-icon fas fa-clipboard-list"></i>
             <p>
               Leave Management
@@ -111,25 +111,18 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
+            <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'EMPLOYEE')">
+              <a th:href="@{/apply_leave}" class="nav-link"
+                th:classappend="${activePage == 'apply_leave'} ? ' active'">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Apply Leave</p>
+              </a>
+            </li>
             <li class="nav-item" sec:authorize="hasRole('ADMIN')">
               <a th:href="@{/active_employee}" class="nav-link"
                 th:classappend="${activePage == 'active_employee'} ? ' active'">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Pending Leave</p>
-              </a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-              <a th:href="@{/inactive_employee}" class="nav-link"
-                th:classappend="${activePage == 'inactive_employee'} ? ' active'">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Approved Leave</p>
-              </a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-              <a th:href="@{/inactive_employee}" class="nav-link"
-                th:classappend="${activePage == 'inactive_employee'} ? ' active'">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Disapproved Leave</p>
+                <p>Leave Applications</p>
               </a>
             </li>
             <li class="nav-item" sec:authorize="hasRole('ADMIN')">

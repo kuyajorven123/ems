@@ -12,6 +12,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+        private final AuthFailureHandler authFailureHandler;
+
+        public SecurityConfig(AuthFailureHandler authFailureHandler) {
+        this.authFailureHandler = authFailureHandler;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -33,7 +39,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/dashboard")
-                        .failureUrl("/login?inactive")
+                        .failureHandler(authFailureHandler)
                         .permitAll())
                         
                 .exceptionHandling(ex -> ex

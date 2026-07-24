@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/main-layout}" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Leave</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <div class="content-header">
+            <div class="container-fluid">
+                <h1 class="m-0">Apply Leave</h1>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-add"><i
+                        class="fas fa-plus"></i> Apply Leave</button>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Leave Type</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Days</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="users : ${user}">
+                            <td th:text="${users.firstname + ' ' + users.middlename + ' ' + users.lastname}"></td>
+                            <td th:text="${users.position}"></td>
+                            <td th:text="${users.email}"></td>
+                            <td th:text="${users.address}"></td>
+                            <td th:text="${#temporals.format(users.birthday, 'MMMM dd, yyyy')}"></td>
+                            <td th:text="${users.department.departmentName}"></td>
+                            <td th:text="${users.status}"></td>
+                            <td th:text="${users.role}"></td>
+                            <td>
+                                <button type="button" class="btn btn-sm btn-success edit-employee-btn"
+                                    data-toggle="modal" data-target="#modal-edit" th:data-id="${users.id}"><i
+                                        class="fas fa-edit"></i> Edit</button>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                                    data-target="#modal-deactivate" th:data-id="${users.id}"><i class="fas fa-ban"></i>
+                                    Deactivate</button>
+                            </td>
+                        </tr>
+                        </tfoot>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    </div>
+</body>
+
+</html>
