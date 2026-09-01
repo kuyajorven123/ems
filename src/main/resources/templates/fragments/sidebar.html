@@ -119,8 +119,8 @@
               </a>
             </li>
             <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-              <a th:href="@{/active_employee}" class="nav-link"
-                th:classappend="${activePage == 'active_employee'} ? ' active'">
+              <a th:href="@{/leave_applications}" class="nav-link"
+                th:classappend="${activePage == 'leave_applications'} ? ' active'">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Leave Applications</p>
               </a>

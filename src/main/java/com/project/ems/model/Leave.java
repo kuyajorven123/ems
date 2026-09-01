@@ -2,6 +2,7 @@ package com.project.ems.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "leaves")
@@ -24,7 +25,7 @@ public class Leave {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     public Long getId() {
         return id;
@@ -82,12 +83,17 @@ public class Leave {
         this.status = status;
     }
 
-    public User getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Transient
+    public long getTotalDays() {
+        return ChronoUnit.DAYS.between(startDate, endDate) + 1;
     }
 
 }

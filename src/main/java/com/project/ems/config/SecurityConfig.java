@@ -33,6 +33,8 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/adminlte/**").permitAll()
                         .requestMatchers("/active_employee").hasRole("ADMIN")
                         .requestMatchers("/inactive_employee").hasRole("ADMIN")
+                        .requestMatchers("/apply_leave").hasAnyRole("ADMIN","EMPLOYEE")
+                        .requestMatchers("/leave_application").hasRole("ADMIN")
                         .requestMatchers("/","/dashboard").hasAnyRole("ADMIN","EMPLOYEE")
                         .requestMatchers("/settings").hasAnyRole("ADMIN","EMPLOYEE")
                         .anyRequest().authenticated())

@@ -12,36 +12,29 @@
     <div layout:fragment="content">
         <div class="content-header">
             <div class="container-fluid">
-                <h1 class="m-0">Apply Leave</h1>
+                <h1 class="m-0">Leave Applications</h1>
             </div>
         </div>
         <div class="card">
-            <div class="card-header">
-                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
-                    data-target="#modal-apply-leave"><i class="fas fa-plus"></i> Apply Leave</button>
-            </div>
             <!-- /.card-header -->
             <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Leave Type</th>
+                            <th>Name</th>
                             <th>Date Applied</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Days</th>
-                            <th>Reason</th>
+                            <th>Department</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="leaves : ${leave}">
-                            <td th:text="${leaves.leaveType}"></td>
+                        <tr th:each="leaves : ${leave}" th:attr="data-id=${leaves.id}" data-toggle="modal"
+                            data-target="#modal-view-leave" style="cursor: pointer;">
+                            <td
+                                th:text="${leaves.user.firstname + ' ' + leaves.user.middlename + ' ' + leaves.user.lastname}">
+                            </td>
                             <td th:text="${#temporals.format(leaves.dateApplied, 'MMMM dd, yyyy')}"></td>
-                            <td th:text="${#temporals.format(leaves.startDate, 'MMMM dd, yyyy')}"></td>
-                            <td th:text="${#temporals.format(leaves.endDate, 'MMMM dd, yyyy')}"></td>
-                            <td th:text="${leaves.totalDays}"></td>
-                            <td th:text="${leaves.reason}"></td>
+                            <td th:text="${leaves.user.department.departmentName}"></td>
                             <td><span class="badge badge-warning" th:if="${leaves.status == 'Pending'}">
                                     Pending
                                 </span>
@@ -60,7 +53,7 @@
             </div>
             <!-- /.card-body -->
         </div>
-        <div class="modal fade" id="modal-apply-leave">
+        <div class="modal fade" id="modal-view-leave">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
