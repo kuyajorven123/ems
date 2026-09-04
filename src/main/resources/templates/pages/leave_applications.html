@@ -15,6 +15,19 @@
                 <h1 class="m-0">Leave Applications</h1>
             </div>
         </div>
+
+        <!-- Alerts -->
+        <script th:if="${param.approved}">
+            document.addEventListener('DOMContentLoaded', function () {
+                toastr.success('Leave Successfully Approved!');
+            });
+        </script>
+        <script th:if="${param.rejected}">
+            document.addEventListener('DOMContentLoaded', function () {
+                toastr.error('Leave Successfully Rejected!');
+            });
+        </script>
+
         <div class="card">
             <!-- /.card-header -->
             <div class="card-body">
@@ -24,6 +37,7 @@
                             <th>Name</th>
                             <th>Date Applied</th>
                             <th>Department</th>
+                            <th>Leave Type</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -35,6 +49,7 @@
                             </td>
                             <td th:text="${#temporals.format(leaves.dateApplied, 'MMMM dd, yyyy')}"></td>
                             <td th:text="${leaves.user.department.departmentName}"></td>
+                            <td th:text="${leaves.leaveType}"></td>
                             <td><span class="badge badge-warning" th:if="${leaves.status == 'Pending'}">
                                     Pending
                                 </span>
@@ -54,7 +69,7 @@
             <!-- /.card-body -->
         </div>
         <div class="modal fade" id="modal-view-leave">
-            <div class="modal-dialog modal-xl">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Leave Application</h4>
@@ -62,55 +77,44 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <form th:action="@{/}" method="post">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <!-- Column 1 -->
-                                            <label for="firstname">Leave Type</label>
-                                            <input type="text" class="form-control" name="leaveType"
-                                                placeholder="Enter Leave Type" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <!-- Column 2  -->
-                                            <label for="middlename">Start Date</label>
-                                            <input type="date" class="form-control" name="startDate" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="firstname">End Date</label>
-                                            <input type="date" class="form-control" name="endDate" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="middlename">Reason</label>
-                                            <textarea class="form-control" name="reason" required></textarea>
-                                        </div>
+
+                    <form th:action="@{/leave_applications_update}" method="post">
+                        <div class="modal-body">
+
+                            <input type="hidden" id="leaveId" name="id">
+
+                            <p><b>Name: </b><span id="leaveName"></span></p>
+                            <p><b>Position: </b><span id="leavePosition"></span></p>
+                            <p><b>Department: </b><span id="leaveDepartment"></span></p>
+                            <p><b>Reason: </b><span id="leaveReason"></span></p>
+                            <p><b>Status: </b><span id="leaveStatus" class="badge"></span></p>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group" id="commentContainer">
+                                        <!-- Column 1 -->
+                                        <label for="firstname">Comment</label>
+                                        <textarea type="text" class="form-control" name="comment"
+                                            placeholder="Enter Comment"></textarea>
                                     </div>
                                 </div>
                             </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <div class="ml-auto">
-                            <button type="submit" class="btn btn-success" name="status" value="Approved">
-                                Approve
-                            </button>
-
-                            <button type="submit" class="btn btn-danger" name="status" value="Rejected">
-                                Reject
-                            </button>
+                            <p id="leaveCommentContainer"><b>Comment: </b><span id="leaveComment"></span></p>
                         </div>
 
-                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <div class="ml-auto" id="leave-action-buttons">
+                                <button type="submit" class="btn btn-success" name="status" value="Approved">
+                                    Approve
+                                </button>
+
+                                <button type="submit" class="btn btn-danger" name="status" value="Rejected">
+                                    Reject
+                                </button>
+                            </div>
+
+                        </div>
                     </form>
                 </div>
             </div>

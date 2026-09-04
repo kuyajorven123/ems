@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.security.core.Authentication;
 
 import org.springframework.ui.Model;
@@ -55,4 +57,31 @@ public class LeaveController {
         model.addAttribute("leave", leaveRepository.findAllForApplications());
         return "/pages/leave_applications";
     }
+
+    //id getter
+
+    @GetMapping({"/leave_applications/{id}"})
+    @ResponseBody
+    public Leave getLeave(@PathVariable Long id) {
+
+        return leaveRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
+    }
+
+    @PostMapping({"/leave_applications_update"})
+    public String leave_applications_update(@ModelAttribute Leave leave, Authentication authentication){
+        Leave existing = leaveRepository.findById(leave.getId())
+                .orElseThrow(() -> new RuntimeException("Leave not found"));
+        
+        User user = userRepository.findByEmail(authentication.getName())
+            .orElseThrow(() -> new RuntimeException("User not Found"));
+
+        existing.setProcessedBy(user);
+        existing.setStatus(leave.getStatus());
+        existing.setComment(leave.getComment());
+        leaveRepository.save(existing);
+        return "redirect:/leave_applications?approved";
+
+    }
+
 }

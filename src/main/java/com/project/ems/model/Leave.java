@@ -20,12 +20,24 @@ public class Leave {
     private LocalDate endDate;
     @Column(name = "date_applied")
     private LocalDate dateApplied;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String reason;
+    
     private String status;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "processed_by")
+    private User processedBy;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
+    private String comment;
 
     public Long getId() {
         return id;
@@ -89,6 +101,22 @@ public class Leave {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public User getProcessedBy() {
+        return processedBy;
+    }
+
+    public void setProcessedBy(User processedBy) {
+        this.processedBy = processedBy;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Transient

@@ -45,6 +45,11 @@
     <script th:src="@{/adminlte/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
     <script th:src="@{/adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
 
+    <!-- SweetAlert2 -->
+    <script th:src="@{/adminlte/plugins/sweetalert2/sweetalert2.min.js}"></script>
+    <!-- Toastr -->
+    <script th:src="@{/adminlte/plugins/toastr/toastr.min.js}"></script>
+
     <!-- Page specific script -->
     <script>
         $(function () {
@@ -401,6 +406,60 @@
                 },
                 error: function () {
                     alert("Unable to load department.");
+                }
+            });
+
+        });
+    </script>
+    <!-- For Leave Applications -->
+    <script>
+        $('#modal-view-leave').on('show.bs.modal', function (event) {
+
+            var button = $(event.relatedTarget);
+            var id = button.data('id');
+
+            $.ajax({
+                url: '/leave_applications/' + id,
+                type: 'GET',
+                success: function (leave) {
+                    $('#leaveId').val(leave.id);
+                    $('#leaveName').text(leave.user.firstname + ' ' + leave.user.middlename + ' ' + leave.user.lastname);
+                    $('#leaveDepartment').text(leave.user.department.departmentName);
+                    $('#leavePosition').text(leave.user.position);
+                    $('#leaveReason').text(leave.reason);
+                    $('#leaveComment').text(leave.comment);
+                    // Status badge
+                    var statusBadge = $('#leaveStatus');
+
+                    statusBadge.text(leave.status);
+
+                    statusBadge.removeClass('badge-warning badge-success badge-danger');
+
+                    if (leave.status === 'Pending') {
+                        statusBadge.addClass('badge-warning');
+                    }
+                    else if (leave.status === 'Approved') {
+                        statusBadge.addClass('badge-success');
+                    }
+                    else if (leave.status === 'Rejected') {
+                        statusBadge.addClass('badge-danger');
+                    }
+
+                    // For the buttons and comments
+                    if (leave.status === 'Pending') {
+                        $('#leave-action-buttons').show();
+                        $('#commentContainer').show();
+                        $('#leaveCommentContainer').hide();
+                    } else {
+                        $('#leave-action-buttons').hide();
+                        $('#commentContainer').hide();
+                        $('#leaveCommentContainer').show();
+                    }
+
+
+                },
+                error: function () {
+                    alert("Unable to load admin.");
                 }
             });
 
