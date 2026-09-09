@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface LeaveRepository extends JpaRepository<Leave, Long>{
+public interface LeaveRepository extends JpaRepository<Leave, Long> {
+
     List<Leave> findByUser(User user);
 
     @Query("""
@@ -21,5 +22,7 @@ public interface LeaveRepository extends JpaRepository<Leave, Long>{
             l.dateApplied DESC
     """)
     List<Leave> findAllForApplications();
+
+    List<Leave> findAll();
 
 }

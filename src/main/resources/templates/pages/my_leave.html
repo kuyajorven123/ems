@@ -12,7 +12,7 @@
     <div layout:fragment="content">
         <div class="content-header">
             <div class="container-fluid">
-                <h1 class="m-0">Apply Leave</h1>
+                <h1 class="m-0">My Leave</h1>
             </div>
         </div>
 
@@ -30,7 +30,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example3" class="table table-bordered table-striped">
+                <table id="myLeaveTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
                             <th>Leave Type</th>
@@ -38,18 +38,17 @@
                             <th>Start Date</th>
                             <th>End Date</th>
                             <th>Days</th>
-                            <th>Reason</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="leaves : ${leave}">
+                        <tr th:each="leaves : ${leave}" th:data-id="${leaves.id}" data-toggle="modal"
+                            data-target="#modal-view-my-leave" style="cursor: pointer;">
                             <td th:text="${leaves.leaveType}"></td>
                             <td th:text="${#temporals.format(leaves.dateApplied, 'MMMM dd, yyyy')}"></td>
                             <td th:text="${#temporals.format(leaves.startDate, 'MMMM dd, yyyy')}"></td>
                             <td th:text="${#temporals.format(leaves.endDate, 'MMMM dd, yyyy')}"></td>
                             <td th:text="${leaves.totalDays}"></td>
-                            <td th:text="${leaves.reason}"></td>
                             <td><span class="badge badge-warning" th:if="${leaves.status == 'Pending'}">
                                     Pending
                                 </span>
@@ -117,6 +116,43 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-primary">Apply</button>
                     </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-view-my-leave">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Leave Application</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <form>
+                        <div class="modal-body">
+
+                            <input type="hidden" id="myLeaveId" name="id">
+
+                            <p><b>Name: </b><span id="myLeaveName"></span></p>
+                            <p><b>Position: </b><span id="myLeavePosition"></span></p>
+                            <p><b>Department: </b><span id="myLeaveDepartment"></span></p>
+                            <p><b>Reason: </b><span id="myLeaveReason"></span></p>
+                            <p><b>Date Applied: </b><span id="myLeaveDateApplied"></span></p>
+                            <p><b>Start Date: </b><span id="myLeaveStartDate"></span></p>
+                            <p><b>End Date: </b><span id="myLeaveEndDate"></span></p>
+                            <p><b>Total Days: </b><span id="myLeaveTotalDays"></span></p>
+                            <p><b>Status: </b><span id="myLeaveStatus" class="badge"></span></p>
+                            <p id="myLeaveProcessedByContainer"><b>Processed By: </b><span id="myLeaveProcessedBy"></span></p>
+                            <p id="myLeaveCommentContainer"><b>Comment: </b><span id="myLeaveComment"></span></p>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                        </div>
                     </form>
                 </div>
             </div>

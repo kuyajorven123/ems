@@ -30,20 +30,29 @@ public class LeaveController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping({ "/apply_leave" })
+    @GetMapping({ "/my_leave" })
     public String apply_leave(Model model, Authentication authentication) {
 
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new RuntimeException("User not Found"));
-        model.addAttribute("activePage", "apply_leave");
+        model.addAttribute("activePage", "my_leave");
         model.addAttribute("leave", leaveRepository.findByUser(user));
-        return "/pages/apply_leave";
+        return "/pages/my_leave";
+    }
+
+    // My Leave Id getter
+    @GetMapping({ "/my_leave/{id}" })
+    @ResponseBody
+    public Leave getMyLeave(@PathVariable Long id) {
+
+        return leaveRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Leave not found"));
     }
 
     @PostMapping({ "/leave_apply" })
     public String leave_apply(@ModelAttribute Leave leave, Authentication authentication) {
         User user = userRepository.findByEmail(authentication.getName())
-            .orElseThrow(() -> new RuntimeException("User not Found"));
+                .orElseThrow(() -> new RuntimeException("User not Found"));
         leave.setUser(user);
         leave.setStatus("Pending");
         leave.setDateApplied(LocalDate.now());
@@ -51,30 +60,30 @@ public class LeaveController {
         return "redirect:/apply_leave?success";
     }
 
-    @GetMapping({"/leave_applications"})
-    public String leave_application(Model model){
+    @GetMapping({ "/leave_applications" })
+    public String leave_application(Model model) {
         model.addAttribute("activePage", "leave_applications");
         model.addAttribute("leave", leaveRepository.findAllForApplications());
         return "/pages/leave_applications";
     }
 
-    //id getter
+    // id getter
 
-    @GetMapping({"/leave_applications/{id}"})
+    @GetMapping({ "/leave_applications/{id}" })
     @ResponseBody
     public Leave getLeave(@PathVariable Long id) {
 
         return leaveRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Admin not found"));
+                .orElseThrow(() -> new RuntimeException("Leave not found"));
     }
 
-    @PostMapping({"/leave_applications_update"})
-    public String leave_applications_update(@ModelAttribute Leave leave, Authentication authentication){
+    @PostMapping({ "/leave_applications_update" })
+    public String leave_applications_update(@ModelAttribute Leave leave, Authentication authentication) {
         Leave existing = leaveRepository.findById(leave.getId())
                 .orElseThrow(() -> new RuntimeException("Leave not found"));
-        
+
         User user = userRepository.findByEmail(authentication.getName())
-            .orElseThrow(() -> new RuntimeException("User not Found"));
+                .orElseThrow(() -> new RuntimeException("User not Found"));
 
         existing.setProcessedBy(user);
         existing.setStatus(leave.getStatus());
